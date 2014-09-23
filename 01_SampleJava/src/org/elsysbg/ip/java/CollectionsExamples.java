@@ -12,6 +12,8 @@ public class CollectionsExamples {
 		arrayWithInit();
 		iterateOverArrayFor();
 		iterateOverArrayForEach();
+		
+		listExample();
 	}
 	
 	private static void arrayWithoutInit() {
@@ -57,6 +59,28 @@ public class CollectionsExamples {
 	}
 
 	
+	private static void listExample() {
+		// create object of type ArrayList (or LinkedList)
+		// type of variable list is List - this is interface that
+		// is used for working with lists
+		final List<String> list = new ArrayList<String>();
+		
+		// to add element to the list
+		list.add("First element");
+		list.add("Last element");
+		
+		// to get specific element
+		System.out.println(list.get(0));
+		
+		// better use foreach:
+		for (String next : list) {
+			System.out.println(next);
+		}
+		
+		// to get size of the list:
+		System.out.println("Size: " + list.size());
+	}
+
 	
 	
 	
