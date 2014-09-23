@@ -7,6 +7,21 @@ public class Equality {
 	public Equality(int value) {
 		this.value = value;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+// optimization:
+//		if (obj == this) {
+//			return true;
+//		}
+		
+		// check if obj is instance of Equality (is of this class or child of this class)
+		if (obj instanceof Equality) {
+			Equality equality = (Equality) obj;
+			return equality.value == this.value;
+		}
+		return false;
+	}
 
 	public static void main(String[] args) {
 		final Equality a1 = new Equality(1);
@@ -21,9 +36,10 @@ public class Equality {
 		System.out.println("b1 == d2:" + (b1 == d2));
 		System.out.println("ca == d2:" + (ca == d2));
 
-		// the only true
+		// true
 		System.out.println("a1.equals(ca):" + (a1.equals(ca)));
 		System.out.println("a1.equals(d2):" + (a1.equals(d2)));
+		// true
 		System.out.println("b1.equals(ca):" + (b1.equals(ca)));
 		System.out.println("b1.equals(d2):" + (b1.equals(d2)));
 		System.out.println("ca.equals(d2):" + (ca.equals(d2)));
