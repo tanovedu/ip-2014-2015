@@ -20,6 +20,7 @@ public class CollectionsExamples {
 		
 		listExample();
 		mapExample();
+		complexMap();
 	}
 	
 	private static void arrayWithoutInit() {
@@ -88,6 +89,7 @@ public class CollectionsExamples {
 	}
 
 	private static void mapExample() {
+		// create map with key of type String and value of type Integer
 		final Map<String, Integer> m = new HashMap<String, Integer>();
 		
 		// to add value to key
@@ -115,6 +117,28 @@ public class CollectionsExamples {
 		for (String next : m.keySet()) {
 			System.out.printf("The population of %s is known\n", next);
 		}
+	}
+	
+	private static void complexMap() {
+		// create map with key of type String and value of type Integer list
+		final Map<String, List<Integer>> m = new HashMap<String, List<Integer>>();
+		
+		final List<Integer> list = new ArrayList<Integer>();
+		list.add(2);
+		list.add(3);
+		
+		m.put("Hello", list);
+		
+		// iterate over elements
+		for (Entry<String, List<Integer>> next : m.entrySet()) {
+			System.out.println("Name: " + next.getKey());
+			
+			// iterate over sub elements
+			for (int count : next.getValue()) {
+				System.out.println("\tcount: " + count);
+			}
+		}
+
 	}
 	
 }
