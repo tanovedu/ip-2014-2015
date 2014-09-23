@@ -1,10 +1,15 @@
 package org.elsysbg.ip.java;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class CollectionsExamples {
 
+	private static final String KEY_GERMANY = "Germany";
+	private static final String KEY_BULGARIA = "Bulgaria";
 	private static final int SIZE = 5;
 
 	public static void main(String[] args) {
@@ -14,6 +19,7 @@ public class CollectionsExamples {
 		iterateOverArrayForEach();
 		
 		listExample();
+		mapExample();
 	}
 	
 	private static void arrayWithoutInit() {
@@ -81,9 +87,34 @@ public class CollectionsExamples {
 		System.out.println("Size: " + list.size());
 	}
 
-	
-	
-	
-	
+	private static void mapExample() {
+		final Map<String, Integer> m = new HashMap<String, Integer>();
+		
+		// to add value to key
+		m.put(KEY_BULGARIA, 7);
+		m.put(KEY_GERMANY, 80);
+		
+		// to get value by key
+		final int populationBulgaria = m.get(KEY_BULGARIA);
+		
+		// formatted output
+		System.out.printf("The population of Bulgaria is %d M\n", populationBulgaria);
+		
+		// iterate over values
+		for (int next : m.values()) {
+			System.out.println(next);
+		}
+		
+		// iterate over all entries
+		for (Entry<String, Integer> next : m.entrySet()) {
+			System.out.printf("The population of %s is %d M\n",
+					next.getKey(), next.getValue());
+		}
+		
+		// iterate over keys
+		for (String next : m.keySet()) {
+			System.out.printf("The population of %s is known\n", next);
+		}
+	}
 	
 }
