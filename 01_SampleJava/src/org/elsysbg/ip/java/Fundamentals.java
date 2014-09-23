@@ -45,6 +45,21 @@ public class Fundamentals {
 		// how to pass arguments to a method
 		final String greetingBulgaria = fundamentalsFinal.getGreeting("Bulgaria");
 		System.out.println(greetingBulgaria);
+		
+		if (fundamentalsFinal.isPositive(4)) {
+			System.out.println("4: yes it is positive");
+		}
+		if (fundamentalsFinal.isPositive(-1)) {
+			// not reached
+			System.out.println("-1: yes it is positive");
+		}
+		if (fundamentalsFinal.isPositiveElse(4)) {
+			System.out.println("4: yes it is positive");
+		}
+		if (fundamentalsFinal.isPositiveElse(-1)) {
+			// not reached
+			System.out.println("-1: yes it is positive");
+		}
 	}
 	
 	// how to define method:
@@ -60,6 +75,25 @@ public class Fundamentals {
 	// how to pass arguments to a method
 	public String getGreeting(String name) {
 		return "Hello " + name;
+	}
+	
+	public boolean isPositive(int n) {
+		// if without else
+		if (n > 0) {
+			// when return is reached method is terminated
+			// so else is not needed here
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isPositiveElse(int n) {
+		// if-else
+		if (n > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
