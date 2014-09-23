@@ -60,6 +60,8 @@ public class Fundamentals {
 			// not reached
 			System.out.println("-1: yes it is positive");
 		}
+		
+		System.out.println(fundamentalsFinal.count(3, 5));
 	}
 	
 	// how to define method:
@@ -94,6 +96,18 @@ public class Fundamentals {
 		} else {
 			return false;
 		}
+	}
+	
+	public int count (int from, int to) {
+		int result = 0;
+		for (int i = from; i < to; i++) {
+			// increment with 1
+			result++;
+			// same as
+//			result += 1;
+		}
+		// same as (to - from)
+		return result;
 	}
 
 }
