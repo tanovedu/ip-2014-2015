@@ -13,18 +13,25 @@ public class EchoServer {
 
 	private static final int SERVER_PORT = 44012;
 
+	private boolean started;
+
 	public static void main(String[] args) throws IOException {
 		new EchoServer().run();
 	}
+
 	
 	public void run() throws IOException {
+		started = true;
+
 		// bind to port
 		final ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
 		
-		// accept client
-		final Socket clientSocket = serverSocket.accept();
-		
-		handleClient(clientSocket);
+		while (started) {
+			// accept client
+			final Socket clientSocket = serverSocket.accept();
+
+			handleClient(clientSocket);
+		}
 		
 		// we should ALWAYS close sockets!
 		serverSocket.close();
