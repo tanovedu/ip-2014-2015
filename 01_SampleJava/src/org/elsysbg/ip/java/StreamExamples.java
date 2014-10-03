@@ -1,6 +1,8 @@
 package org.elsysbg.ip.java;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,7 +17,32 @@ public class StreamExamples {
 	public static void main(String[] args) throws IOException {
 //		inputStreamExample();
 //		bufferedReaderExample();
-		readFromUrl();
+//		readFromUrl();
+		readFromFileInputStream();
+	}
+	private static void readFromFileInputStream() throws MalformedURLException, IOException {
+		final File file = new File("src/org/elsysbg/ip/java/StreamExamples.java");
+		// get input stream of given file
+		final InputStream input = new FileInputStream(file);
+		// then we can use it like any other input stream:
+		
+		// Setting charset to UTF-8
+		final InputStreamReader inputStreamReader = new InputStreamReader(input, Charset.forName("UTF-8"));
+		final BufferedReader reader = new BufferedReader(inputStreamReader);
+		
+		try {
+			String nextLine;
+			// read until end of stream
+			while((nextLine = reader.readLine()) != null) {
+				System.out.println(nextLine);
+			}
+		} finally {
+			// Always close resources!
+			reader.close();
+		}
+		
+		// InputStream input can be left open if exception is generated before try-finally, e.g. unknown charset
+		// so wrap in try-finally, too
 	}
 
 	private static void readFromUrl() throws MalformedURLException, IOException {
