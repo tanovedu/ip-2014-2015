@@ -11,7 +11,7 @@ import java.net.Socket;
 
 public class EchoServer {
 
-	private static final int SERVER_PORT = 44012;
+	public static final int SERVER_PORT = 44012;
 	
 	// if static - ClientHandler will not have access to EchoServer.started
 	// so server can be stopped if "END" command is implemented in client handler
