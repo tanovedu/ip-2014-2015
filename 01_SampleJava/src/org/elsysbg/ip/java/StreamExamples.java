@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
 
 public class StreamExamples {
 
@@ -11,9 +14,34 @@ public class StreamExamples {
 
 	public static void main(String[] args) throws IOException {
 //		inputStreamExample();
-		bufferedReaderExample();
+//		bufferedReaderExample();
+		readFromUrl();
 	}
-	
+
+	private static void readFromUrl() throws MalformedURLException, IOException {
+		// get input stream of given URL
+		final InputStream input = new URL("http://google.com").openStream();
+		// then we can use it like any other input stream:
+		
+		// Setting charset to UTF-8
+		final InputStreamReader inputStreamReader = new InputStreamReader(input, Charset.forName("UTF-8"));
+		final BufferedReader reader = new BufferedReader(inputStreamReader);
+		
+		try {
+			String nextLine;
+			// read until end of stream
+			while((nextLine = reader.readLine()) != null) {
+				System.out.println(nextLine);
+			}
+		} finally {
+			// Always close resources!
+			reader.close();
+		}
+		
+		// InputStream input can be left open if exception is generated before try-finally, e.g. unknown charset
+		// so wrap in try-finally, too
+	}
+
 	private static void bufferedReaderExample() throws IOException {
 		final InputStream input = System.in;
 		final InputStreamReader inputStreamReader = new InputStreamReader(input);
