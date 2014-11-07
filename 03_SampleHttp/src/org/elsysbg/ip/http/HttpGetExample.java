@@ -8,8 +8,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.LinkedList;
-import java.util.List;
 
 public class HttpGetExample {
 
@@ -19,15 +17,21 @@ public class HttpGetExample {
 
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		final HttpGetExample example = new HttpGetExample();
-		final List<String> response = example.createRequest("example.com",
+		final CharacterHttpResponse response = example.createRequest("example.com",
 			HTTP_METHOD_GET, "/index.html");
 		
-		for (String next : response) {
-			System.out.println(next);
+		System.out.println(new String(response.getStatusLine()));
+		for (HttpHeader next : response.getHeaders()) {
+			System.out.printf("%s: %s\n", next.getName(), next.getValue());
 		}
+		System.out.println(new String(response.getBody()));
+// or using for
+//		for (char next : response.getBody()) {
+//			System.out.print(next);
+//		}
 	}
 	
-	public List<String> createRequest(String host, String method,
+	public CharacterHttpResponse createRequest(String host, String method,
 			String path)
 			throws UnknownHostException, IOException {
 		final Socket clientSocket = new Socket(host, HTTP_PORT);
@@ -52,12 +56,23 @@ public class HttpGetExample {
 		
 	}
 
-	private List<String> parseResponse(BufferedReader in) throws IOException {
-		final List<String> result = new LinkedList<String>();
+	private CharacterHttpResponse parseResponse(BufferedReader in) throws IOException {
+		final CharacterHttpResponse result = new CharacterHttpResponse();
+		
+		//reading status line
+		result.setStatusLine(in.readLine());
+		
+		// reading headers until new line - this is marker for end of headers
 		String next;
-		while((next = in.readLine()) != null) {
-			result.add(next);
+		while(!(next = in.readLine()).equals("")) {
+			result.getHeaders().add(HttpHeader.createFromHeaderLine(next));
 		}
+		
+		// TODO chunked transfer-encoding is not supported!
+
+		// reading body - we already know how many bytes the body is
+		// (from the content-length header line)
+		in.read(result.getBody());
 		return result;
 	}
 
