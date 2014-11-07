@@ -13,34 +13,58 @@ import java.util.List;
 
 public class HttpGetExample {
 
+	private static final String HTTP_METHOD_GET = "GET";
 	private static final int HTTP_PORT = 80;
+	private static final String PROTOCOL_VERSION = "HTTP/1.0";
 
-	public static void main(String[] args) {
-
+	public static void main(String[] args) throws UnknownHostException, IOException {
+		final HttpGetExample example = new HttpGetExample();
+		final List<String> response = example.createRequest("example.com",
+			HTTP_METHOD_GET, "/index.html");
+		
+		for (String next : response) {
+			System.out.println(next);
+		}
 	}
 	
-	public List<String> createRequest(String host, String path)
+	public List<String> createRequest(String host, String method,
+			String path)
 			throws UnknownHostException, IOException {
 		final Socket clientSocket = new Socket(host, HTTP_PORT);
-		final InputStream inputStream = clientSocket .getInputStream();
-		final OutputStream outputStream = clientSocket.getOutputStream();
-		
-		final InputStreamReader inputStreamReader =
-			new InputStreamReader(inputStream);
-		final BufferedReader in = new BufferedReader(inputStreamReader);
-		final PrintWriter out = new PrintWriter(outputStream);
+		try {
+			final InputStream inputStream = clientSocket .getInputStream();
+			final OutputStream outputStream = clientSocket.getOutputStream();
+			
+			final InputStreamReader inputStreamReader =
+				new InputStreamReader(inputStream);
+			final BufferedReader in = new BufferedReader(inputStreamReader);
+			final PrintWriter out = new PrintWriter(outputStream);
 
-		// TODO SEND HTTP REQUEST
+			writeRequest(out, host, method, path);
+			out.flush();
+			
+			return parseResponse(in);
+		} finally {
+			// we should ALWAYS close sockets!
+			clientSocket.close();
+		}
 		
-		out.flush();
 		
-		// TODO READ HTTP RESPONSE
+	}
+
+	private List<String> parseResponse(BufferedReader in) throws IOException {
 		final List<String> result = new LinkedList<String>();
-		
-		// we should ALWAYS close sockets!
-		clientSocket.close();
-		
+		String next;
+		while((next = in.readLine()) != null) {
+			result.add(next);
+		}
 		return result;
+	}
+
+	private void writeRequest(PrintWriter out, String host,
+			String method, String path) {
+		out.printf("%s %s %s\n", method, path, PROTOCOL_VERSION);
+		out.printf("\n");
 	}
 
 }
