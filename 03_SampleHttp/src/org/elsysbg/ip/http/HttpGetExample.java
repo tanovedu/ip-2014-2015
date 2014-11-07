@@ -15,7 +15,7 @@ public class HttpGetExample {
 
 	private static final String HTTP_METHOD_GET = "GET";
 	private static final int HTTP_PORT = 80;
-	private static final String PROTOCOL_VERSION = "HTTP/1.0";
+	private static final String PROTOCOL_VERSION = "HTTP/1.1";
 
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		final HttpGetExample example = new HttpGetExample();
@@ -64,6 +64,7 @@ public class HttpGetExample {
 	private void writeRequest(PrintWriter out, String host,
 			String method, String path) {
 		out.printf("%s %s %s\n", method, path, PROTOCOL_VERSION);
+		// TODO Host is required in HTTP/1.1
 		out.printf("\n");
 	}
 
