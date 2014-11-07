@@ -64,7 +64,7 @@ public class HttpGetExample {
 	private void writeRequest(PrintWriter out, String host,
 			String method, String path) {
 		out.printf("%s %s %s\n", method, path, PROTOCOL_VERSION);
-		// TODO Host is required in HTTP/1.1
+		out.printf("Host: %s\n", host);
 		out.printf("\n");
 	}
 
