@@ -4,8 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CharacterHttpResponse {
-	// should be in lower case
+	// these constants should be in lower case:
 	private static final String HEADER_CONTENT_LENGTH = "content-length";
+	private static final String HEADER_TRANSFER_ENCODING = "transfer-encoding";
+	private static final String HEADER_VALUE_TRANSFER_ENCODING_CHUNKED = "chunked";
 	
 	private String statusLine;
 	private final List<HttpHeader> headers = new LinkedList<HttpHeader>();
@@ -31,16 +33,30 @@ public class CharacterHttpResponse {
 		return body;
 	}
 
-	public int getContentLength() {
+	private String getHeaderValue(String headerName) {
 		for (HttpHeader next : headers) {
 			// in HTTP header names are case insensitive
-			if (next.getName().toLowerCase().equals(HEADER_CONTENT_LENGTH)) {
-				final int result = Integer.parseInt(next.getValue());
-				// it should be checked for very big value
-				return result;
+			if (next.getName().toLowerCase().equals(headerName)) {
+				return next.getValue();
 			}
 		}
+		return null;
+	}
+	public int getContentLength() {
+		final String headerValue = getHeaderValue(HEADER_CONTENT_LENGTH);
+		if (headerValue != null) {
+			// it should be checked for very big value
+			return Integer.parseInt(headerValue);
+		}
 		return 0;
+	}
+	
+	public boolean isChunkedTransferEncoding() {
+		final String headerValue = getHeaderValue(HEADER_TRANSFER_ENCODING);
+		if (headerValue != null) {
+			return headerValue.toLowerCase().equals(HEADER_VALUE_TRANSFER_ENCODING_CHUNKED);
+		}
+		return false;
 	}
 	
 }

@@ -14,7 +14,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class HttpExample {
-	private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 10;
+	private static final int CHUNK_READ_SIZE = 1024;
+	private static final int MAX_CHUNK_SIZE = 1024 * 1024 * 1;
+	private static final int MAX_REQUEST_SIZE = MAX_CHUNK_SIZE * 10;
 
 	private static final String ENCODING = "UTF-8";
 	private static final int HTTP_PORT = 80;
@@ -79,15 +81,66 @@ public class HttpExample {
 			result.getHeaders().add(HttpHeader.createFromHeaderLine(next));
 		}
 		
-		// TODO chunked transfer-encoding is not supported!
+		// reading body
+		if (result.isChunkedTransferEncoding()) {
+			parseResponseChunked(in, result);
+		} else {
+			parseResponseByContentLength(in, result);
+		}
+		return result;
+	}
 
-		// reading body - we already know how many bytes the body is
+	private void parseResponseChunked(BufferedReader in,
+			CharacterHttpResponse result) throws IOException {
+		final StringBuilder body = new StringBuilder();
+		final char[] chunk = new char[CHUNK_READ_SIZE];
+
+		// read line by line
+		String sizeAsString;
+		while((sizeAsString = in.readLine()) != null) {
+			final int size = Integer.parseInt(sizeAsString, 16);
+			if (size > MAX_CHUNK_SIZE) {
+				throw new IllegalStateException("Chunk is too big: " + size +
+						", max allowed: " + MAX_CHUNK_SIZE);
+			}
+
+			if (size == 0) {
+				// end of input
+				break;
+			}
+			
+			readChunk(in, body, chunk, size);
+		}
+
+		result.setBody(body.toString());
+	}
+
+	private void readChunk(BufferedReader in, final StringBuilder body,
+			final char[] chunk, int size) throws IOException {
+		// read chunk
+		while (size > 0) {
+			final int readCount = in.read(chunk, 0, Math.min(size, chunk.length));
+			if (readCount <= 0) {
+				throw new IllegalStateException("No content: " + readCount +
+						", expected: " + Math.min(size, chunk.length));
+			}
+			size -= readCount;
+			body.append(chunk, 0, readCount);
+			
+		}
+		// last new line of chunk
+		in.readLine();
+		// TODO check if it is new line
+	}
+
+	private void parseResponseByContentLength(BufferedReader in, final CharacterHttpResponse result)
+			throws IOException {
+		//  we already know how many bytes the body is
 		// (from the content-length header line)
 		final int size = Math.min(MAX_REQUEST_SIZE, result.getContentLength());
 		final char[] body = new char[size];
 		in.read(body);
 		result.setBody(new String(body));
-		return result;
 	}
 
 	private void writeRequest(PrintWriter out, String host,

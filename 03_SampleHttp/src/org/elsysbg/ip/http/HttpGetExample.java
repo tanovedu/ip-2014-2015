@@ -9,6 +9,7 @@ public class HttpGetExample {
 
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		final HttpExample example = new HttpExample();
+		// example.com or www.google.bg for chunked response
 		final CharacterHttpResponse response = example.createRequest("example.com",
 			HTTP_METHOD_GET, "/index.html");
 		
