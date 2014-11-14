@@ -6,16 +6,29 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class HttpExample {
 
+	private static final String ENCODING = "UTF-8";
 	private static final int HTTP_PORT = 80;
 	private static final String PROTOCOL_VERSION = "HTTP/1.1";
+	public CharacterHttpResponse createRequest(String host, String method,
+			String path) throws UnknownHostException, UnsupportedEncodingException, IOException {
+		return createRequest(host, method, path, (String) null);
+	}
 
 	public CharacterHttpResponse createRequest(String host, String method,
-			String path)
+			String path, Map<String, String> body) throws UnknownHostException, UnsupportedEncodingException, IOException {
+		return createRequest(host, method, path, convertParametersToString(body));
+	}
+	public CharacterHttpResponse createRequest(String host, String method,
+			String path, String body)
 			throws UnknownHostException, IOException {
 		final Socket clientSocket = new Socket(host, HTTP_PORT);
 		try {
@@ -27,7 +40,7 @@ public class HttpExample {
 			final BufferedReader in = new BufferedReader(inputStreamReader);
 			final PrintWriter out = new PrintWriter(outputStream);
 
-			writeRequest(out, host, method, path);
+			writeRequest(out, host, method, path, body);
 			out.flush();
 			
 			return parseResponse(in);
@@ -37,6 +50,20 @@ public class HttpExample {
 		}
 		
 		
+	}
+
+	private String convertParametersToString(Map<String, String> body) throws UnsupportedEncodingException {
+		final StringBuilder result = new StringBuilder();
+		for (Entry<String, String> next : body.entrySet()) {
+			if (result.length() > 0) {
+				result.append("&");
+			}
+			result.append(URLEncoder.encode(next.getKey(), ENCODING));
+			result.append("=");
+			result.append(URLEncoder.encode(next.getValue(), ENCODING));
+			
+		}
+		return result.toString();
 	}
 
 	private CharacterHttpResponse parseResponse(BufferedReader in) throws IOException {
@@ -60,10 +87,20 @@ public class HttpExample {
 	}
 
 	private void writeRequest(PrintWriter out, String host,
-			String method, String path) {
+			String method, String path, String body) {
 		out.printf("%s %s %s\n", method, path, PROTOCOL_VERSION);
 		out.printf("Host: %s\n", host);
-		out.printf("\n");
+		if (body != null) {
+			out.printf("Content-Length: %d\n", body.length());
+			// TODO content type
+			out.printf("Content-Type: %s\n", "application/x-www-form-urlencoded");
+			// end of header:
+			out.printf("\n");
+			out.println(body);
+		} else {
+			// end of request
+			out.printf("\n");
+		}
 	}
 
 }
