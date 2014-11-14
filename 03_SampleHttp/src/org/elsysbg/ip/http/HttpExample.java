@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class HttpExample {
+	private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 10;
 
 	private static final String ENCODING = "UTF-8";
 	private static final int HTTP_PORT = 80;
@@ -82,7 +83,10 @@ public class HttpExample {
 
 		// reading body - we already know how many bytes the body is
 		// (from the content-length header line)
-		in.read(result.getBody());
+		final int size = Math.min(MAX_REQUEST_SIZE, result.getContentLength());
+		final char[] body = new char[size];
+		in.read(body);
+		result.setBody(new String(body));
 		return result;
 	}
 
