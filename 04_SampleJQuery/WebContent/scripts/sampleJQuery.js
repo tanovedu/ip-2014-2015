@@ -22,6 +22,15 @@ $(document).ready(function() {
 	console.log($(".pretty"));
 	// to search in children of element:
 	console.log(list.find(".pretty"));
+
+	// handling events:
+	// $("li.pretty").on("click", function() { or
+	$("li.pretty").click(function() {
+		alert("CLICK!");
+	});
+	$("li.pretty").on("mouseenter", function() {
+		console.log("mouse entered the element");
+	});
 });
 /* shorthand:
 $(function() {
