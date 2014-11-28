@@ -1,6 +1,15 @@
 (function() {
 	"use strict"
 	
+	// to stop execution to this point:
+	debugger;
+	// you can add breakpoints from developer console, too
+	// conditional breakpoints are supported, too
+	
+	// to print something (not compatible with all browsers):
+	console.log("Hello, world", {a: "b"});
+	console.error("Hello, world", {a: "b"});
+	
 	// display alert on the screen
 	alert("Hello world");
 	
