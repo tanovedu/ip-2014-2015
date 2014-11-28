@@ -67,5 +67,14 @@
 		//alert("Hello, " + arguments[0]);
 	};
 	greeting("World");
-		
+
+
+	// equality == or ===, see
+	// http://dorey.github.io/JavaScript-Equality-Table/
+	if ("false") {
+		// will be called
+	}
+	if ("") {
+		// will not be called
+	}	
 })();
