@@ -51,4 +51,21 @@
 		alert("TRUE");
 	}
 	
+
+	// define variable and assign anonymous function to it
+	var func = function() {
+		alert("in func");
+	};
+	// call function
+	func();
+	
+	// function with parameters:
+	var greeting = function(name) {
+		alert("Hello, " + name);
+		// variable "arguments" contains all parameters
+		// passed to function:
+		//alert("Hello, " + arguments[0]);
+	};
+	greeting("World");
+		
 })();
