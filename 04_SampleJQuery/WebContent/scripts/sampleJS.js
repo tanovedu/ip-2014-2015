@@ -16,4 +16,14 @@
 		alert("TWO");
 	}
 	// for, while
+	
+	// to define array
+	var array = [];
+	// add to array
+	array.push("Hello");
+	// size of array
+	alert(array.length);
+	// access element of an array by index 
+	alert(array[0]);
+
 })();
