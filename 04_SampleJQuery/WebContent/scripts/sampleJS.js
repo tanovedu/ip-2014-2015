@@ -77,4 +77,22 @@
 	if ("") {
 		// will not be called
 	}	
+	
+
+	// every variable can have value "undefined" 
+	// undefined:
+	// var bool;
+	
+	// every variable can have value "null" 
+	// null:
+	// var bool = null;
+	
+	// true:
+	// var bool = true;
+	// same for false
+	
+	// makes o.subObject to be undefined
+	delete o.subObject;
+	// this is different than:
+	o.subObject = null;	
 })();
