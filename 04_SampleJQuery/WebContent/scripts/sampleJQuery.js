@@ -13,4 +13,13 @@ $(document).ready(function(){
 	// by parent (using SPACE) - children of ul that have class pretty:
 	console.log($("ul .pretty"));
 
+	// we can assign result to a variable: 
+	var list = $("#list1");
+	
+	// to get children of an element
+	console.log(list.children());
+	
+	console.log($(".pretty"));
+	// to search in children of element:
+	console.log(list.find(".pretty"));
 });
