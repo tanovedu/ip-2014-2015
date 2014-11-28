@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function() {
 	"use strict"
 	
 	// search for jQuery selectors
@@ -23,3 +23,9 @@ $(document).ready(function(){
 	// to search in children of element:
 	console.log(list.find(".pretty"));
 });
+/* shorthand:
+$(function() {
+	"use strict"
+	// something when document is ready
+});
+*/
