@@ -56,6 +56,14 @@ $(document).ready(function() {
 		// get text entered into input:
 		var name = itemNameInput.val();
 		
+		// no value in input
+		if (!name) {
+			alert("You should enter some text");
+			
+			// break function invocation so empty
+			// item will not be created
+			return;
+		}
 		// clear text in input
 		itemNameInput.val("");
 		// func() - getter, func(value) - setter
