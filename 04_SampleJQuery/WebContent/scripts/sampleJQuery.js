@@ -43,6 +43,16 @@ $(document).ready(function() {
 	list.append(newListItem);
 	// equal to
 	// list.append($("<li/>").text("new2").attr("id", new Date().getTime()));
+
+	// create button
+	var addButton = $("<button/>").text("ADD");
+	// add element when clicking on button
+	addButton.click(function() {
+		list.append($("<li/>").text("new2").
+				attr("id", new Date().getTime()));
+	});
+	// insert before the list
+	addButton.insertBefore(list);
 });
 /* shorthand:
 $(function() {
