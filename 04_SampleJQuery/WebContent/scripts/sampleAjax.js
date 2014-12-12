@@ -1,6 +1,9 @@
 $(document).ready(function() {
 	"use strict"
-
+	function handleError(error) {
+		console.error("error", error, arguments);
+	}
+	
 	function appendToList(list, post) {
 		var newElement = $("<li/>");
 		newElement.text(post.title);
@@ -33,5 +36,7 @@ $(document).ready(function() {
 	
 	$.ajax("http://jsonplaceholder.typicode.com/posts", {
 	  method: "GET"
-	}).then(processResponse);
+	// second argument is function that will be
+	// called when error occurs
+	}).then(processResponse, handleError);
 });
