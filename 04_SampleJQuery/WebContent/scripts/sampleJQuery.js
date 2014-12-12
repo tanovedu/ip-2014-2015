@@ -46,11 +46,13 @@ $(document).ready(function() {
 
 	// create button
 	var addButton = $("<button/>").text("ADD");
-	// add element when clicking on button
-	addButton.click(function() {
+	
+	var addElement = function() {
 		list.append($("<li/>").text("new2").
 				attr("id", new Date().getTime()));
-	});
+	};
+	// add element when clicking on button
+	addButton.click(addElement);
 	// insert before the list
 	addButton.insertBefore(list);
 });
