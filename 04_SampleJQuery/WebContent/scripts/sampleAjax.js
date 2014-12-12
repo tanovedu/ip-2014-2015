@@ -1,28 +1,26 @@
 $(document).ready(function() {
 	"use strict"
 
-	// execute GET request to given url
-	$.ajax("http://jsonplaceholder.typicode.com/posts", {
-	  method: "POST",
-	  // add request body as JSON:
-	  data: {
-		  userId: 1,
-		  body: "newContent",
-		  title: "newPost"
-	  }
-	// function in then() is callback that will be called
-	// when response is received
-	}).then(function(data) {
-		console.log("response received");
-		// get response of the request
-		console.log(data);
-		// you can access response fields directly
-		console.log("title: " + data.title);
-	});
-	console.log("this is called before 'response received'");
+	function appendToList(list, post) {
+		var newElement = $("<li/>");
+		newElement.text(post.title);
+		list.append(newElement);
+	}
+	function processResponse(response) {
+		// get list where response will be added
+		var list = $("#list1");
+		//iterating over array, something like:
+		//for(var i=0; i<response.length; i++)
+		$.each(response, function() {
+			// next element is "this"
+			// response[i] is "this"
+			// console.log(this);
+			
+			appendToList(list, this);
+		});
+	}
 	
-	// DO NOT USE:
-	// var response = $.ajax();
-	// console.log(response);
-	// only async calls
+	$.ajax("http://jsonplaceholder.typicode.com/posts", {
+	  method: "GET"
+	}).then(processResponse);
 });
