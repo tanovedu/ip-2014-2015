@@ -44,11 +44,24 @@ $(document).ready(function() {
 	// equal to
 	// list.append($("<li/>").text("new2").attr("id", new Date().getTime()));
 
+	// create input element
+	var itemNameInput = $("<input/>");
+	// and add it before list
+	itemNameInput.insertBefore(list);
+	
 	// create button
 	var addButton = $("<button/>").text("ADD");
 	
 	var addElement = function() {
-		list.append($("<li/>").text("new2").
+		// get text entered into input:
+		var name = itemNameInput.val();
+		
+		// clear text in input
+		itemNameInput.val("");
+		// func() - getter, func(value) - setter
+		// same for attr()
+		
+		list.append($("<li/>").text(name).
 				attr("id", new Date().getTime()));
 	};
 	// add element when clicking on button
