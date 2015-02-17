@@ -8,14 +8,7 @@ $(document).ready(function() {
 		// that have attribute data-dismiss-sample
 		// with value 'alert'
 		"[data-dismiss-sample='alert']", function(event) {
-		event.stopPropagation();
-		console.log("dismiss alert", arguments);
-	});
-	
-	// all click events on the page
-	// (except events that are not propagated)
-	$(document).on("click", function() {
-		console.log("all", arguments);
+		$(event.target.closest(".alert")).remove();
 	});
 	
 });
