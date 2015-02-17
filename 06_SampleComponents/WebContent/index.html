@@ -10,15 +10,30 @@
 	<body>
 		<div class="container">
 			<div class="row">
-				<div class="alert alert-warning alert-dismissible fade in" role="alert">
-					<button type="button" class="close" data-dismiss-sample="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<strong>Sample component</strong> for dismissing alert
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<button type="button" class="btn btn-primary"
+							data-ajax-fetch="index.html" data-target="#exampleSource">
+							Show source of index.html	
+						</button>
+						<button type="button" class="btn btn-primary"
+							data-ajax-fetch="scripts/ajaxFetch.js" data-target="#exampleSource">
+							Show source of ajaxFetch.js
+						</button>
+					
+					</div>
 				</div>			
 			</div>
 			<div class="row">
-				<div class="alert alert-warning alert-dismissible fade in" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<strong>Original Bootstrap Alert!</strong> Hello world
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Example source</h3>
+					</div>
+					<div class="panel-body">
+						<pre id="exampleSource">
+							Please select file to show
+						</pre>
+					</div>
 				</div>			
 			</div>
 		</div>
@@ -28,6 +43,6 @@
 		<script type="text/javascript"
 			src="libs/bootstrap.js"></script>
 		<script type="text/javascript"
-			src="scripts/dismissAlert.js"></script>
+			src="scripts/ajaxFetch.js"></script>
 	</body>
 </html>
