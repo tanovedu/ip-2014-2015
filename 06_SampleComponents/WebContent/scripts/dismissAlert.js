@@ -8,7 +8,9 @@ $(document).ready(function() {
 		// that have attribute data-dismiss-sample
 		// with value 'alert'
 		"[data-dismiss-sample='alert']", function(event) {
-		$(event.target.closest(".alert")).fadeOut("slow");
+		$(event.target.closest(".alert")).fadeOut("slow", function() {
+			alert("element removed");
+		});
 	});
 	
 });
