@@ -7,7 +7,8 @@ $(document).ready(function() {
 		// we filter only click events on elements
 		// that have attribute data-dismiss-sample
 		// with value 'alert'
-		"[data-dismiss-sample='alert']", function() {
+		"[data-dismiss-sample='alert']", function(event) {
+		event.stopPropagation();
 		console.log("dismiss alert", arguments);
 	});
 	
