@@ -8,9 +8,11 @@ $(document).ready(function() {
 		// that have attribute data-dismiss-sample
 		// with value 'alert'
 		"[data-dismiss-sample='alert']", function(event) {
+		// you can use this instead of event.target
 		$(event.target.closest(".alert")).slideUp("slow", function() {
 			$(this).remove();
 		});
+		// see bootstrap implementation: https://github.com/twbs/bootstrap/blob/master/js/alert.js
 	});
 	
 });
