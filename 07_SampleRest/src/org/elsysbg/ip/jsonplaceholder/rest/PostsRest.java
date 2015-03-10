@@ -33,7 +33,7 @@ public class PostsRest {
 
 	@GET
 	@Path("/")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_XML)
 	public List<Post> getPosts() {
 		return postsService.getPosts();
 	}
