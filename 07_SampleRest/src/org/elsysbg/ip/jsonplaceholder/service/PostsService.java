@@ -36,11 +36,14 @@ public class PostsService {
 		return post;
 	}
 	public Post updatePost(long postId, Post post) {
-		// do not allow changing of the ID
-		post.setId(postId);
-		deletePost(post.getId());
-		posts.add(post);
-		return post;
+		final Post fromDb = getPost(postId);
+		// only body and title should be updated
+		// author should not be changed
+		// disadvantage is that we can miss some
+		// fields that can be updated
+		fromDb.setBody(post.getBody());
+		fromDb.setTitle(post.getTitle());
+		return fromDb;
 	}
 	public void deletePost(long postId) {
 		final Post toBeDeleted = getPost(postId);
