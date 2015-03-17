@@ -1,16 +1,33 @@
 package org.elsysbg.ip.jsonplaceholder.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Model is copied by http://jsonplaceholder.typicode.com/
  */
 @XmlRootElement
+// name specifies the name of the table that will hold this entity
+@Entity(name="Posts")
+@NamedQueries({
+	@NamedQuery(name = "allPosts", 
+		query = "SELECT p from Posts p")
+})
 public class Post {
 	
+	@Id
+	@GeneratedValue
 	private long id;
 //	private User author;
+	
+	@Column(nullable=false, length=50)
 	private String title;
+	@Column(nullable=false, length=500)
 	private String body;
 	
 	public long getId() {
