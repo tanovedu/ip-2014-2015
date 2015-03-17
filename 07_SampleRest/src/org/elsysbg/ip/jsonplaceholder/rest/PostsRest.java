@@ -3,6 +3,7 @@ package org.elsysbg.ip.jsonplaceholder.rest;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -66,7 +67,10 @@ public class PostsRest {
 		Post post) {
 		return postsService.updatePost(postId, post);
 	}
-	public void deletePost(long postId) {
+	
+	@DELETE
+	@Path("/{postId}")
+	public void deletePost(@PathParam("postId") long postId) {
 		postsService.deletePost(postId);
 	}
 }
