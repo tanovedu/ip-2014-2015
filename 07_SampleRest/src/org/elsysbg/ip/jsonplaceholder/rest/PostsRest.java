@@ -2,7 +2,9 @@ package org.elsysbg.ip.jsonplaceholder.rest;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -40,6 +42,10 @@ public class PostsRest {
 	public Post getPost(long postId) {
 		return postsService.getPost(postId);
 	}
+	@POST
+	@Path("/")
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Post createPost(Post post) {
 		// TODO set author by user session
 		post.setUser(defaultAuthor);
