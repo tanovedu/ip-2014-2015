@@ -12,7 +12,8 @@
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="javax.persistence.jdbc.user" value="app" />
 			<property name="javax.persistence.jdbc.password" value="" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:derby:07_SampleRest;create=true" />
+			<!-- see http://db.apache.org/derby/papers/DerbyTut/ns_intro.html -->
+			<property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/07_SampleRest;create=true" />
 			<property name="hibernate.connection.autocommit" value="false"/>
 		</properties>
 	</persistence-unit>
