@@ -8,7 +8,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Model is copied by http://jsonplaceholder.typicode.com/
@@ -40,11 +39,6 @@ public class Post {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
-	@XmlTransient
-	// without XmlTransient - there will
-	// be recursion when serializing the author
-	// (user -> posts -> author(user))
 	public User getAuthor() {
 		return author;
 	}
