@@ -34,6 +34,20 @@ public class UsersService {
 		final EntityManager em =
 			emf.createEntityManager();
 		try {
+// this solution can cause problems because
+			// when we get post it will contain author
+			// and author will have password
+			// (we should remove password in
+			// Posts endpoint and everywhere else, too
+			// this will be very difficult to maintain) 
+			// final User result = em.find(User.class, userId);
+			// result.setPassword(null);
+			// return result;
+			
+			// for better solution - see
+			// https://jersey.java.net/documentation/latest/entity-filtering.html
+			// how to attach attach entity filter
+
 			return em.find(User.class, userId);
 		} finally {
 			em.close();
