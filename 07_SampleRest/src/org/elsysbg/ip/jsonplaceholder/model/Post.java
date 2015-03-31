@@ -17,7 +17,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity(name="Posts")
 @NamedQueries({
 	@NamedQuery(name = "allPosts", 
-		query = "SELECT p from Posts p")
+		query = "SELECT p from Posts p"),
+	@NamedQuery(name = "postsByAuthor", 
+		query = "SELECT p from Posts p where p.author=:author")
 })
 public class Post {
 	

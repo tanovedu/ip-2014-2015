@@ -8,6 +8,7 @@ import javax.persistence.EntityTransaction;
 
 import org.elsysbg.ip.jsonplaceholder.Services;
 import org.elsysbg.ip.jsonplaceholder.model.Post;
+import org.elsysbg.ip.jsonplaceholder.model.User;
 
 /**
  * TODO write tests for posts service
@@ -30,6 +31,19 @@ public class PostsService {
 			em.close();
 		}
 	}
+
+	public List<Post> getPostsByAuthor(User author) {
+		final EntityManager em =
+			emf.createEntityManager();
+		try {
+			return em
+				.createNamedQuery("postsByAuthor", Post.class)
+				.setParameter("author", author)
+				.getResultList();
+		} finally {
+			em.close();
+		}
+	}	
 	
 	public Post getPost(long postId) {
 		final EntityManager em =
