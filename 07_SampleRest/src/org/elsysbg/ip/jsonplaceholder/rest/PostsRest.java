@@ -16,11 +16,15 @@ import org.elsysbg.ip.jsonplaceholder.Services;
 import org.elsysbg.ip.jsonplaceholder.model.Post;
 import org.elsysbg.ip.jsonplaceholder.model.User;
 import org.elsysbg.ip.jsonplaceholder.service.PostsService;
+import org.elsysbg.ip.jsonplaceholder.service.UsersService;
 
 @Path("posts")
 public class PostsRest {
 	private final PostsService postsService;
-	private final User defaultAuthor;
+	private final UsersService usersService;
+	// TODO should be get from session
+	private final String defaultAuthorEmail =
+		"hello@world";
 
 
 // In real world projects this is done by injection
@@ -29,11 +33,7 @@ public class PostsRest {
 //	public PostsRest(PostsService postsService) {
 	public PostsRest() {
 		postsService = Services.getPostsService();
-		
-		// TODO should be get from session
-		defaultAuthor = new User();
-		defaultAuthor.setEmail("hello@world");
-		defaultAuthor.setPassword("secret");
+		usersService = Services.getUsersService();
 	}
 
 	@GET
@@ -55,8 +55,9 @@ public class PostsRest {
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Post createPost(Post post) {
-		// TODO set author by user session
-//		post.setAuthor(defaultAuthor);
+		final User author =
+			usersService.getUserByEmail(defaultAuthorEmail);
+		post.setAuthor(author);
 		return postsService.createPost(post);
 	}
 	@PUT
