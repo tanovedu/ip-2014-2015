@@ -81,8 +81,17 @@ public class PostsRest {
 	@Path("/{postId}")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Post updatePost(@PathParam("postId") long postId,
+	public Post updatePost(@Context SecurityContext security, @PathParam("postId") long postId,
 		Post post) {
+		final Post fromDb = postsService.getPost(postId);
+		if (!fromDb.getAuthor().getEmail().equals(
+			security.getUserPrincipal().getName())) {
+			throw new SecurityException(
+				"Insufficient permission for post " + postId +
+				" issued by " + security.getUserPrincipal().getName());
+		}
+		// This should be performed by annotations
+
 		return postsService.updatePost(postId, post);
 	}
 	
