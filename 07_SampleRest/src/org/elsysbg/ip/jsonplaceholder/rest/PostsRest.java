@@ -3,6 +3,7 @@ package org.elsysbg.ip.jsonplaceholder.rest;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -97,6 +98,8 @@ public class PostsRest {
 	
 	@DELETE
 	@Path("/{postId}")
+	// only administrators can delete posts
+	@RolesAllowed({"ADMINISTRATOR"})
 	public void deletePost(@PathParam("postId") long postId) {
 		postsService.deletePost(postId);
 	}

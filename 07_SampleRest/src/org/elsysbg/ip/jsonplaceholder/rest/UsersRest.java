@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.elsysbg.ip.jsonplaceholder.Services;
 import org.elsysbg.ip.jsonplaceholder.model.Post;
+import org.elsysbg.ip.jsonplaceholder.model.Role;
 import org.elsysbg.ip.jsonplaceholder.model.User;
 import org.elsysbg.ip.jsonplaceholder.service.PostsService;
 import org.elsysbg.ip.jsonplaceholder.service.UsersService;
@@ -52,8 +53,8 @@ public class UsersRest {
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public User createUser(User user) {
-		// TODO set author by user session
-//		post.setAuthor(defaultAuthor);
+		// always set USER role when registering
+		user.setRole(Role.USER);
 		return usersService.createUser(user);
 	}
 	// TODO implement update, delete
