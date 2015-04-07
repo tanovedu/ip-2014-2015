@@ -1,9 +1,13 @@
 package org.elsysbg.ip.jsonplaceholder.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,7 +22,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity(name="Users")
 @NamedQueries({
 	@NamedQuery(name = "userByEmail", 
-		query = "SELECT u from Users u where u.email=:email")
+		query = "SELECT u from Users u where u.email=:email"),
+	@NamedQuery(name = "usersByLikedPost", 
+		query = "SELECT u from Users u where (:likedPost) "
+				+ "MEMBER OF u.likedPosts")
 })
 public class User {
 	@Id
@@ -27,6 +34,9 @@ public class User {
 
 	@Column(nullable=false, length=50, unique=true)
 	private String email;
+
+	@ManyToMany(mappedBy="likedByUsers")
+	private Set<Post> likedPosts = new HashSet<Post>();
 	
 	// posts of the user will be get with separate REST call
 	// (e.g. no need of posts of the user when searching for user)
@@ -60,6 +70,14 @@ public class User {
 	// XmlElement is required because of XmlTransient in the getter 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	@XmlTransient
+	public Set<Post> getLikedPosts() {
+		return likedPosts;
+	}
+	public void setLikedPosts(Set<Post> likedPosts) {
+		this.likedPosts = likedPosts;
 	}
 	
 }
