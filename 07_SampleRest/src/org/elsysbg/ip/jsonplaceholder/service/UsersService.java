@@ -56,8 +56,7 @@ public class UsersService {
 			em.close();
 		}
 	}
-	// synchronized because of lastUserId
-	public synchronized User createUser(User user) {
+	public User createUser(User user) {
 		EntityManager em =
 			emf.createEntityManager();
 		final EntityTransaction tx =
